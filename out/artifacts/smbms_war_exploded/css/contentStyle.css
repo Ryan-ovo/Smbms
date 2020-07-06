@@ -2,7 +2,8 @@
     height: auto;
     width: 100%;
     padding: 10px;
-    background: url("../image/homepage-background2.png") no-repeat;
+    background: url("../image/homepage-background2.png");
+    background-repeat: no-repeat;
     background-attachment: local;
     background-size: cover;
 }
