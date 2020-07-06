@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-订单管理</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+</head>
+<body>
+    <header class="header"></header>
+
+    <div style="display: flex;width: 100%;" id="content_height">
+        <!--左侧收缩菜单-->
+        <div class="left-side-menu" >
+            <div class="lsm-expand-btn">
+                <div class="lsm-mini-btn">
+                    <label style="display: block;">
+                        <input type="checkbox" checked="checked">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="30" />
+                            <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                            <path class="line--2" d="M0 50h80" />
+                            <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                        </svg>
+                    </label>
+
+                </div>
+            </div>
+            <div class="lsm-container">
+                <div class="lsm-scroll" >
+                    <div class="lsm-sidebar">
+                        <ul>
+                            <li class="lsm-sidebar-item">
+                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-home-smile-line"></i><span>首页</span><i class="my-icon lsm-sidebar-more"></i></a>
+                            </li>
+                            <li class="lsm-sidebar-item">
+                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-file-chart-2-line"></i><span>订单管理</span><i class="my-icon lsm-sidebar-more"></i></a>
+                            </li>
+                            <li class="lsm-sidebar-item">
+                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-community-line"></i><span>供应商管理</span><i class="my-icon lsm-sidebar-more"></i></a>
+                            </li>
+                            <li class="lsm-sidebar-item">
+                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-user-5-line"></i><span>用户管理</span><i class="my-icon lsm-sidebar-more"></i></a>
+                            </li>
+                            <li class="lsm-sidebar-item">
+                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-shut-down-line"></i><span>退出系统</span><i class="my-icon lsm-sidebar-more"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--非公共部分显示内容-->
+        <div class="homepage-background img-responsive">
+            <!--位置、祝福语、时间-->
+            <div style="height:30px; border-radius: 15px; border:solid 1px lightgrey;background: white; padding:5px 10px;display: flex; justify-content: space-between;">
+                <h5>您的位置：<a href="homepage.html"><span style="color: lightskyblue">首页</span></a>-><a href="orderMgr.html"><span style="color: lightskyblue">订单管理</span></a></h5>
+                <h5>张三，欢迎您！祝您工作愉快~</h5>
+                <h5 id="datetime">
+                    <script>
+                        setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
+                    </script>
+                </h5>
+            </div>
+
+            <!--功能框(条件查询、删除选中、创建)-->
+            <div style="margin: 10px 0; background: white; padding: 5px 10px; display: flex;justify-content: space-between; border-radius: 15px;border:solid 1px lightgrey;">
+                <div style="width: 100%;">
+                    <form class="form-inline" style="display: flex;">
+                        <div class="searchByProductName" style="display: flex; margin: 5px;">
+                            <label style="margin-right: 5px;" for="productName">商品名称</label>
+                            <input type="text" class="form-control" id="productName">
+                        </div>
+
+                        <div class="searchByProvider" style="display: flex; margin: 5px;">
+                            <label style="margin-right: 5px;" for="provider">供应商</label>
+                            <button type="button" id="provider" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                请选择 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">请选择...</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="searchByPayment" style="display: flex;margin: 5px;">
+                            <label style="margin-right: 5px;" for="payment">是否付款</label>
+                            <button type="button" id="payment" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                请选择 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">请选择...</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">已付款</a></li>
+                                <li><a href="#">未付款</a></li>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="btn btn-tmp btn-primary ">查询订单</button>
+                        <button type="submit" class="btn btn-tmp btn-danger ">删除选中</button>
+                    </form>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-lg btn-success" style="display: flex; align-items: center;"><i class="ri-add-circle-line ri-lg"></i> 创建新订单 </button>
+                </div>
+
+            </div>
+
+            <!--表格信息-->
+            <div style="background: white; margin-top: 15px; border:solid 1px lightgrey;">
+                <table class="table table-hover table-striped table-responsive">
+                    <tr class="info">
+                        <th><input type="checkbox"> 全选</th>
+                        <th>订单编码</th>
+                        <th>商品名称</th>
+                        <th>供应商</th>
+                        <th>订单金额</th>
+                        <th>是否付款</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>BILL2020_001</td>
+                        <td>大豆油</td>
+                        <td>北京纳福尔食用油有限公司</td>
+                        <td>5890.00</td>
+                        <td>已付款</td>
+                        <td>2020-07-03</td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button">查看</a>
+                            <a class="btn btn-warning" href="#" role="button">修改</a>
+                            <a class="btn btn-danger" href="#" role="button">删除</a>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div style="display: flex;justify-content: center;">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="disabled">
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $('.header').load('header.html');
+            $('.lsm-template').load('left-side-menu.html');
+        })
+    </script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/left-side-menu.js"></script>
+    <script src="js/content_height.js"></script>
+</body>
+</html>
