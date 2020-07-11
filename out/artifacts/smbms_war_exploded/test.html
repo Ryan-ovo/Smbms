@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-订单管理</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+</head>
+<body>
+    <header id="header"></header>
+    <div style="display: flex;width: 100%;" id="content_height">
+        <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
+        <div class="homepage-background img-responsive">
+            <top-bar id="top-bar"></top-bar>
+            <!--功能框(条件查询、删除选中、创建)-->
+            <div style="margin: 10px 0; background: white; padding: 5px 10px; display: flex;justify-content: space-between; border-radius: 15px;border:solid 1px lightgrey;">
+                <div style="width: 100%;">
+                    <form class="form-inline" style="display: flex;">
+                        <div class="form-group" style="display: flex; margin: 5px;">
+                            <label style="margin-right: 5px;" for="productName">商品名称</label>
+                            <input type="text" class="form-control" id="productName">
+                        </div>
+
+                        <div class="btn-group" style="display: flex; margin: 5px;">
+                            <label style="margin-right: 5px;" for="provider">供应商</label>
+                            <button type="button" id="provider" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                请选择 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">请选择...</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group" style="display: flex;margin: 5px;">
+                            <label style="margin-right: 5px;" for="payment">是否付款</label>
+                            <button type="button" id="payment" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                请选择 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">请选择...</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">已付款</a></li>
+                                <li><a href="#">未付款</a></li>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="btn btn-tmp btn-primary ">查询订单</button>
+                        <button type="submit" class="btn btn-tmp btn-danger ">删除选中</button>
+                    </form>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-lg btn-success" style="display: flex; align-items: center;"><i class="ri-add-circle-line ri-lg"></i> 创建新订单 </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/content_height.js"></script>
+    <script src="js/include.js"></script>
+
+</body>
+</html>

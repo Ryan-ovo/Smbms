@@ -1,5 +1,7 @@
 package cn.smbms.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -11,6 +13,7 @@ public class User {
     private String username;
     private String password;
     private String gender;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createDate;
 
     public int getId() {

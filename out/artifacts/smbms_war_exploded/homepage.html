@@ -12,77 +12,29 @@
     <link rel="stylesheet" href="css/contentStyle.css">
 </head>
 <body>
-    <header class="header"></header>
 
+
+    <header id="header"></header>
     <div style="display: flex;width: 100%;" id="content_height">
-        <!--左侧收缩菜单-->
-        <div class="left-side-menu" >
-            <div class="lsm-expand-btn">
-                <div class="lsm-mini-btn">
-                    <label style="display: block;">
-                        <input type="checkbox" checked="checked">
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="30" />
-                            <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
-                            <path class="line--2" d="M0 50h80" />
-                            <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
-                        </svg>
-                    </label>
-
-                </div>
-            </div>
-            <div class="lsm-container">
-                <div class="lsm-scroll" >
-                    <div class="lsm-sidebar">
-                        <ul>
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-home-smile-line"></i><span>首页</span><i class="my-icon lsm-sidebar-more"></i></a>
-                            </li>
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-file-chart-2-line"></i><span>订单管理</span><i class="my-icon lsm-sidebar-more"></i></a>
-                            </li>
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-community-line"></i><span>供应商管理</span><i class="my-icon lsm-sidebar-more"></i></a>
-                            </li>
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-user-5-line"></i><span>用户管理</span><i class="my-icon lsm-sidebar-more"></i></a>
-                            </li>
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon ri-shut-down-line"></i><span>退出系统</span><i class="my-icon lsm-sidebar-more"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--非公共部分显示内容-->
+        <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
         <div class="homepage-background img-responsive">
-            <!--位置、祝福语、时间-->
-            <div style="height:30px; border-radius: 15px; border:solid 1px lightgrey;background: white; padding:5px 10px;display: flex; justify-content: space-between;">
-                <h5>您的位置：<a href="homepage.html"><span style="color: lightskyblue">首页</span></a></h5>
-                <h5>张三，欢迎您！祝您工作愉快~</h5>
-                <h5 id="datetime">
-                    <script>
-                        setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
-                    </script>
-                </h5>
-            </div>
+            <top-bar id="top-bar"></top-bar>
         </div>
     </div>
 
 
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="js/include.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/content_height.js"></script>
+
+
     <script>
         $(function () {
-            $('.header').load('header.html');
-            $('.lsm-template').load('left-side-menu.html');
+
         })
     </script>
-    <script src="js/jquery.slimscroll.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/left-side-menu.js"></script>
-    <script src="js/content_height.js"></script>
 </body>
 </html>

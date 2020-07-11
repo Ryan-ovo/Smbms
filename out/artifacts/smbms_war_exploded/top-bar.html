@@ -1,0 +1,33 @@
+<!--位置、祝福语、时间-->
+<script>
+    $(function () {
+        $.get("user/findOne",{},function (data) {
+            $("#span_username").html(data.username);
+        })
+        var s = location.href.split("/");
+        var cur = s[s.length-1];
+        var loc = "";
+        if (cur === "homepage.html"){
+
+        }else if(cur === "userList.html"){
+            loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">用户管理</span></a>';
+        }
+
+        $("#dynamic_bar").append(loc);
+    })
+
+
+</script>
+
+<top-bar id="top-bar">
+    <div style="height:30px; border-radius: 15px; border:solid 1px lightgrey;background: white; padding:5px 10px;display: flex; justify-content: space-between;">
+        <h5 id="dynamic_bar">您的位置：<a href="homepage.html"><span style="color: lightskyblue">首页</span></a></h5>
+        <h5><span id="span_username"></span>，欢迎您！祝您工作愉快~</h5>
+        <h5 id="datetime">
+            <script>
+                setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
+            </script>
+        </h5>
+    </div>
+</top-bar>
+

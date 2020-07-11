@@ -75,7 +75,7 @@
             is_show();
             return false;
         }
-        $.post("loginServlet", $("#loginForm").serialize(), function (data) {
+        $.post("user/login", $("#loginForm").serialize(), function (data) {
             //处理服务器响应的数据
             if (data.flag) {
                 //登录成功

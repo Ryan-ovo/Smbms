@@ -73,12 +73,12 @@
             <div style="margin: 10px 0; background: white; padding: 5px 10px; display: flex;justify-content: space-between; border-radius: 15px;border:solid 1px lightgrey;">
                 <div style="width: 100%;">
                     <form class="form-inline" style="display: flex;">
-                        <div class="searchByProductName" style="display: flex; margin: 5px;">
+                        <div class="form-group" style="display: flex; margin: 5px;">
                             <label style="margin-right: 5px;" for="productName">商品名称</label>
                             <input type="text" class="form-control" id="productName">
                         </div>
 
-                        <div class="searchByProvider" style="display: flex; margin: 5px;">
+                        <div class="btn-group" style="display: flex; margin: 5px;">
                             <label style="margin-right: 5px;" for="provider">供应商</label>
                             <button type="button" id="provider" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 请选择 <span class="caret"></span>
@@ -92,7 +92,7 @@
                             </ul>
                         </div>
 
-                        <div class="searchByPayment" style="display: flex;margin: 5px;">
+                        <div class="btn-group" style="display: flex;margin: 5px;">
                             <label style="margin-right: 5px;" for="payment">是否付款</label>
                             <button type="button" id="payment" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 请选择 <span class="caret"></span>
@@ -260,7 +260,6 @@
     <script>
         $(function () {
             $('.header').load('header.html');
-            $('.lsm-template').load('left-side-menu.html');
         })
     </script>
     <script src="js/jquery.slimscroll.min.js"></script>

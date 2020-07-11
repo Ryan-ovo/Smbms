@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-订单管理</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+
+    <script>
+        function deleteUser(id) {
+            if (confirm("您确定要删除吗?")){
+                location.href = "user/delete?id="+id;
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+<header id="header"></header>
+<div style="display: flex;width: 100%;" id="content_height">
+    <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
+    <div class="homepage-background img-responsive">
+        <top-bar id="top-bar"></top-bar>
+        <!--功能框(条件查询、删除选中、创建)-->
+        <div style="margin: 10px 0; background: white; padding: 5px 10px; display: flex;justify-content: space-between; border-radius: 15px;border:solid 1px lightgrey;">
+            <div style="width: 100%;">
+                <form class="form-inline" style="display: flex;">
+                    <div class="form-group" style="display: flex; margin: 5px;">
+                        <label style="margin-right: 5px;" for="productName">用户名</label>
+                        <input type="text" class="form-control" id="productName">
+                    </div>
+                    <button type="submit" class="btn btn-tmp btn-primary ">查询用户</button>
+                    <button type="submit" class="btn btn-tmp btn-danger " id="deleteSelected">删除选中</button>
+                </form>
+            </div>
+
+        </div>
+        <!--表格信息-->
+        <div style="background: white; margin-top: 15px; border:solid 1px lightgrey;">
+            <form id="selectedForm">
+                <table class="table table-hover table-striped table-responsive">
+                    <tr class="info">
+                        <th><input type="checkbox" id="firstCb"> 全选</th>
+                        <th>用户编号</th>
+                        <th>用户名</th>
+                        <th>性别</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </table>
+            </form>
+
+            <div style="display: flex;justify-content: center;">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="disabled">
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script src="js/include.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/content_height.js"></script>
+<script>
+    $(function () {
+        $.post("user/findAll", {}, function (userList) {
+            var list = '';
+            for (var i = 0; i < userList.length; i++) {
+                var user = userList[i];
+                list += '<tr>\n' +
+                    '<td><input type="checkbox" name="uid" value="'+user.id+'"></td>\n' +
+                    '<td>'+user.id+'</td>\n' +
+                    '<td>'+user.username+'</td>\n' +
+                    '<td>'+user.gender+'</td>\n' +
+                    '<td>'+user.createDate+'</td>\n' +
+                    '<td>\n' +
+                    '<a class="btn btn-warning" href="#" role="button">修改</a>\n' +
+                    '<a class="btn btn-danger" href="javascript:deleteUser('+user.id+');" role="button">删除</a>\n' +
+                    '</td>\n' +
+                    '</tr>';
+            }
+            $(".table").append($(list));
+        })
+
+        function deleteUser(id) {
+            if (confirm("您确定要删除吗?")){
+                location.href = "user/delete?id="+id;
+            }
+        }
+
+        $("#deleteSelected").click(function () {
+            if (confirm("您确定要删除选中条目吗?")){
+                var flag = false;
+                var cbs = $("input[name=uid]");
+                for (var i = 0; i < cbs.length; i++) {
+                    if (cbs[i].checked){
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    $.get("user/deleteSelected",$("#selectedForm").serialize());
+                }
+            }
+        })
+
+        $("#firstCb").click(function () {
+            var cbs = $("input[name=uid]");
+            for (var i = 0; i < cbs.length; i++) {
+                cbs[i].checked = this.checked;
+            }
+        })
+
+    })
+</script>
+</body>
+</html>

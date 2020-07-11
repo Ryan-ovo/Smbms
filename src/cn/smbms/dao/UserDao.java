@@ -6,29 +6,26 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
+
 /**
  * @author lxd
  * @create 2020-06-30 0:11
  */
-public class UserDao {
-    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
-
+public interface UserDao {
     /**
-     * 登录方法
-     * @param loginUser 只含有用户名和密码
-     * @return User返回用户的所有信息
+     * 通过用户名和密码来查找用户实现登录
+     * @param username
+     * @param password
+     * @return
      */
-    public User login(User loginUser){
-        //ctrl+art+t 快捷生成try catch
-        try {
-            //编写sql
-            String sql = "select * from user where username = ? and password = ?";
-            User user = template.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class),
-                    loginUser.getUsername(),loginUser.getPassword());
-            return user;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    public User findByUsernameAndPassword(String username, String password);
+
+    public List<User> findAll();
+
+    public void delete(int id);
+
+    public int findTotalCount();
+
+    public List<User> findByPage(int start, int rows);
 }
