@@ -108,11 +108,21 @@
             if (beforeNum <= 0){
                 beforeNum = 1;
             }
-            var beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+')">\n' +
-                             '    <a href="javascript:void(0)" aria-label="Previous">\n' +
-                             '         <span aria-hidden="true">&laquo;</span>\n' +
-                             '    </a>\n' +
-                             '</li>'
+            var beforePage;
+            if (pb.currentPage === 1){
+                beforePage = '<li class="disabled" ">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Previous">\n' +
+                    '         <span aria-hidden="true">&laquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>'
+            }else{
+                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+')">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Previous">\n' +
+                    '         <span aria-hidden="true">&laquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>'
+            }
+
             list += beforePage;
 
             for (var i = 1; i <= pb.totalPage; i++) {
@@ -129,11 +139,22 @@
             if (nextNum > pb.totalPage){
                 nextNum = pb.totalPage;
             }
-            var nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+')">\n' +
-                            '    <a href="javascript:void(0)" aria-label="Next">\n' +
-                            '        <span aria-hidden="true">&raquo;</span>\n' +
-                            '    </a>\n' +
-                            '</li>';
+
+            var nextPage;
+            if (pb.currentPage === pb.totalPage){
+                nextPage =  '<li class="disabled">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Next">\n' +
+                    '        <span aria-hidden="true">&raquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>';
+            }else {
+                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+')">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Next">\n' +
+                    '        <span aria-hidden="true">&raquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>';
+            }
+
 
             list += nextPage;
             $("#pageNum").html(list);
