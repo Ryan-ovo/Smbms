@@ -5,12 +5,13 @@ import cn.smbms.entity.ResultInfo;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * 登录验证的过滤器
  */
-//@WebFilter("/*")
+@WebFilter("/*")
 public class LoginFilter implements Filter {
 
 
@@ -18,11 +19,17 @@ public class LoginFilter implements Filter {
         System.out.println(req);
         //0.强制转换
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse)resp;
+
+        response.setHeader("Cache-control","no-cache");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", -1);
 
         //1.获取资源请求路径
         String uri = request.getRequestURI();
+        System.out.println(uri);
         //2.判断是否包含登录相关资源路径,要注意排除掉 css/js/图片/验证码等资源
-        if(uri.contains("/login.html") || uri.contains("/user/login") || uri.contains("/css/") || uri.contains("/js/") || uri.contains("/font/") || uri.contains("/checkCode")
+        if("/smbms/".equals(uri) || uri.contains("/login.html") || uri.contains("/user/login") || uri.contains("/css/") || uri.contains("/js/") || uri.contains("/font/") || uri.contains("/checkCode")
         || uri.contains("/image/")){
             //包含，用户就是想登录。放行
             chain.doFilter(req, resp);
