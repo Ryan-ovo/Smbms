@@ -108,11 +108,21 @@
             if (beforeNum <= 0){
                 beforeNum = 1;
             }
-            var beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+')">\n' +
-                             '    <a href="javascript:void(0)" aria-label="Previous">\n' +
-                             '         <span aria-hidden="true">&laquo;</span>\n' +
-                             '    </a>\n' +
-                             '</li>'
+            var beforePage;
+            if (pb.currentPage === 1){
+                beforePage = '<li class="disabled" ">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Previous">\n' +
+                    '         <span aria-hidden="true">&laquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>'
+            }else{
+                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+')">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Previous">\n' +
+                    '         <span aria-hidden="true">&laquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>'
+            }
+
             list += beforePage;
 
             for (var i = 1; i <= pb.totalPage; i++) {
@@ -129,11 +139,22 @@
             if (nextNum > pb.totalPage){
                 nextNum = pb.totalPage;
             }
-            var nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+')">\n' +
-                            '    <a href="javascript:void(0)" aria-label="Next">\n' +
-                            '        <span aria-hidden="true">&raquo;</span>\n' +
-                            '    </a>\n' +
-                            '</li>';
+
+            var nextPage;
+            if (pb.currentPage === pb.totalPage){
+                nextPage =  '<li class="disabled">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Next">\n' +
+                    '        <span aria-hidden="true">&raquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>';
+            }else {
+                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+')">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Next">\n' +
+                    '        <span aria-hidden="true">&raquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>';
+            }
+
 
             list += nextPage;
             $("#pageNum").html(list);
@@ -144,6 +165,8 @@
                 '                        <th>用户编号</th>\n' +
                 '                        <th>用户名</th>\n' +
                 '                        <th>性别</th>\n' +
+                '                        <th>电话</th>\n' +
+                '                        <th>邮箱</th>\n' +
                 '                        <th>创建时间</th>\n' +
                 '                        <th>操作</th>\n' +
                 '                    </tr>';
@@ -154,6 +177,8 @@
                     '<td>'+user.id+'</td>\n' +
                     '<td>'+user.username+'</td>\n' +
                     '<td>'+user.gender+'</td>\n' +
+                    '<td>'+user.phone+'</td>\n' +
+                    '<td>'+user.email+'</td>\n' +
                     '<td>'+user.createDate+'</td>\n' +
                     '<td>\n' +
                     '<a class="btn btn-warning" href="#" role="button">修改</a>\n' +

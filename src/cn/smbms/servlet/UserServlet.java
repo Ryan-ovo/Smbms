@@ -150,6 +150,13 @@ public class UserServlet extends BaseServlet{
         resp.sendRedirect(req.getContextPath()+"/userList.html");
     }
 
+    /**
+     * 分页查询数据
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     public void findByPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String currentPage = req.getParameter("currentPage");
         String rows = req.getParameter("rows");

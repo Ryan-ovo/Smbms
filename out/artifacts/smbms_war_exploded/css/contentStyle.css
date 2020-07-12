@@ -17,3 +17,27 @@
     border-top-left-radius: 4px !important;
     border-bottom-left-radius: 4px !important;
 }
+
+.modified-password {
+    background: white;
+    border-radius: 4px;
+    padding: 50px;
+    margin: 20px 50px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+}
+
+.pwd-item{
+    display: flex;
+}
+
+.input-pwd{
+    width: 50%;
+}
+
+.tips{
+    color: red;
+    text-align: center;
+    line-height: 24px;
+}
