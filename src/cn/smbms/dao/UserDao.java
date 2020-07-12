@@ -28,4 +28,6 @@ public interface UserDao {
     public int findTotalCount();
 
     public List<User> findByPage(int start, int rows);
+
+    public void modifiedPWD(String password, int id);
 }

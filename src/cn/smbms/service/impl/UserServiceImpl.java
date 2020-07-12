@@ -66,4 +66,9 @@ public class UserServiceImpl implements UserService {
         pb.setTotalPage(totalPage);
         return pb;
     }
+
+    @Override
+    public void modifiedPWD(String password, int id) {
+        userDao.modifiedPWD(password, id);
+    }
 }

@@ -28,4 +28,6 @@ public interface UserService {
     public void deleteSelectedUser(String[] ids);
 
     public PageBean<User> findUserByPage(String currentPage, String rows);
+
+    public void modifiedPWD(String password, int id);
 }

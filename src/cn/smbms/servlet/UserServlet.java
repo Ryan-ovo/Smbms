@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -155,5 +156,39 @@ public class UserServlet extends BaseServlet{
         ObjectMapper mapper = new ObjectMapper();
         resp.setContentType("application/json;charset=utf-8");
         mapper.writeValue(resp.getOutputStream(),pb);
+    }
+
+    /**
+     * 修改用户密码
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void modifiedPWD(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        User user = (User)req.getSession().getAttribute("user");
+
+        String oldpassword = req.getParameter("oldpassword");
+        String newpassword = req.getParameter("newpassword");
+        String confirmpassword = req.getParameter("confirmpassword");
+
+        resp.setContentType("application/json;charset=utf-8");
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+
+        if(oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty() || !oldpassword.equals(user.getPassword()) || oldpassword.equals(newpassword) || !newpassword.equals(confirmpassword)){
+            //未成功修改
+            map.put("res", false);
+            mapper.writeValue(resp.getWriter(), map);
+        }else{
+            //成功修改
+            service.modifiedPWD(newpassword, user.getId());
+            map.put("res", true);
+            mapper.writeValue(resp.getWriter(), map);
+        }
+
+        //更新session对象中的user对象
+        user.setPassword(newpassword);
+        System.out.println(((User)req.getSession().getAttribute("user")).getPassword());
     }
 }

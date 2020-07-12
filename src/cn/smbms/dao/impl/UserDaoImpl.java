@@ -65,4 +65,10 @@ public class UserDaoImpl implements UserDao {
         String sql = "select * from user limit ? , ?";
         return template.query(sql,new BeanPropertyRowMapper<>(User.class),start,rows);
     }
+
+    @Override
+    public void modifiedPWD(String password, int id) {
+        String sql = "update user set password = ? where id = ?";
+        template.update(sql, password, id);
+    }
 }
