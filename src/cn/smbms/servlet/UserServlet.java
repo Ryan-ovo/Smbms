@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -171,24 +172,37 @@ public class UserServlet extends BaseServlet{
         String oldpassword = req.getParameter("oldpassword");
         String newpassword = req.getParameter("newpassword");
         String confirmpassword = req.getParameter("confirmpassword");
+        //System.out.println("old-" + oldpassword + " new-" + newpassword + " confirm-" + confirmpassword);
 
-        resp.setContentType("application/json;charset=utf-8");
-        ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        ResultInfo info = new ResultInfo();
+        String errorMsg = "抱歉，密码修改失败！";
 
-        if(oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty() || !oldpassword.equals(user.getPassword()) || oldpassword.equals(newpassword) || !newpassword.equals(confirmpassword)){
+        if(oldpassword == null || newpassword == null || confirmpassword == null || oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty() || !oldpassword.equals(user.getPassword()) || oldpassword.equals(newpassword) || !newpassword.equals(confirmpassword)){
             //未成功修改
-            map.put("res", false);
-            mapper.writeValue(resp.getWriter(), map);
+            info.setFlag(false);
+            if(oldpassword == null || newpassword == null || confirmpassword == null || oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty()){
+                errorMsg += "请不要保留空白项";
+            }else if(!oldpassword.equals(user.getPassword())){
+                errorMsg += "旧密码输入不正确";
+            }else if(oldpassword.equals(newpassword)){
+                errorMsg += "新密码不可与旧密码相同";
+            }else{
+                errorMsg += "两次密码输入不一致";
+            }
+            info.setErrorMsg(errorMsg);
+
         }else{
             //成功修改
             service.modifiedPWD(newpassword, user.getId());
-            map.put("res", true);
-            mapper.writeValue(resp.getWriter(), map);
-        }
+            info.setFlag(true);
 
-        //更新session对象中的user对象
-        user.setPassword(newpassword);
-        System.out.println(((User)req.getSession().getAttribute("user")).getPassword());
+            //更新session对象中的user对象
+            user.setPassword(newpassword);
+            //System.out.println(((User)req.getSession().getAttribute("user")).getPassword());
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(info);
+        resp.setContentType("application/json;charset=utf-8");
+        resp.getWriter().write(json);
     }
 }

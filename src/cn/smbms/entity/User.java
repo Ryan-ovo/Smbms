@@ -13,6 +13,8 @@ public class User {
     private String username;
     private String password;
     private String gender;
+    private String phone;
+    private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createDate;
 
@@ -48,6 +50,22 @@ public class User {
         this.gender = gender;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -63,6 +81,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
                 ", createDate=" + createDate +
                 '}';
     }
