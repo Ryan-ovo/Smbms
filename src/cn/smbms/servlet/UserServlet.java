@@ -5,6 +5,7 @@ import cn.smbms.entity.ResultInfo;
 import cn.smbms.entity.User;
 import cn.smbms.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.beans.binding.ObjectBinding;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author lxd
@@ -168,13 +170,14 @@ public class UserServlet extends BaseServlet{
 
     /**
      * 修改用户密码
+     *
      * @param req
      * @param resp
      * @throws ServletException
      * @throws IOException
      */
-    public void modifiedPWD(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        User user = (User)req.getSession().getAttribute("user");
+    public void modifiedPWD(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User) req.getSession().getAttribute("user");
 
         String oldpassword = req.getParameter("oldpassword");
         String newpassword = req.getParameter("newpassword");
@@ -184,21 +187,21 @@ public class UserServlet extends BaseServlet{
         ResultInfo info = new ResultInfo();
         String errorMsg = "抱歉，密码修改失败！";
 
-        if(oldpassword == null || newpassword == null || confirmpassword == null || oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty() || !oldpassword.equals(user.getPassword()) || oldpassword.equals(newpassword) || !newpassword.equals(confirmpassword)){
+        if (oldpassword == null || newpassword == null || confirmpassword == null || oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty() || !oldpassword.equals(user.getPassword()) || oldpassword.equals(newpassword) || !newpassword.equals(confirmpassword)) {
             //未成功修改
             info.setFlag(false);
-            if(oldpassword == null || newpassword == null || confirmpassword == null || oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty()){
+            if (oldpassword == null || newpassword == null || confirmpassword == null || oldpassword.isEmpty() || newpassword.isEmpty() || confirmpassword.isEmpty()) {
                 errorMsg += "请不要保留空白项";
-            }else if(!oldpassword.equals(user.getPassword())){
+            } else if (!oldpassword.equals(user.getPassword())) {
                 errorMsg += "旧密码输入不正确";
-            }else if(oldpassword.equals(newpassword)){
+            } else if (oldpassword.equals(newpassword)) {
                 errorMsg += "新密码不可与旧密码相同";
-            }else{
+            } else {
                 errorMsg += "两次密码输入不一致";
             }
             info.setErrorMsg(errorMsg);
 
-        }else{
+        } else {
             //成功修改
             service.modifiedPWD(newpassword, user.getId());
             info.setFlag(true);
@@ -206,6 +209,101 @@ public class UserServlet extends BaseServlet{
             //更新session对象中的user对象
             user.setPassword(newpassword);
             //System.out.println(((User)req.getSession().getAttribute("user")).getPassword());
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(info);
+        resp.setContentType("application/json;charset=utf-8");
+        resp.getWriter().write(json);
+    }
+
+    /**
+     * 将待修改用户信息写入响应消息
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void findAnother(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User targetUser = (User) req.getSession().getAttribute("targetUser");
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(targetUser);
+        resp.setContentType("application/json;charset=utf-8");
+        resp.getWriter().write(json);
+    }
+
+    /**
+     * 跳转到修改信息页面，并设置待修改User对象
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void forwardModifiedInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String s_id = req.getParameter("id");
+        User targetUser = null;
+        if (s_id != null && s_id != "")
+            targetUser = service.findById(Integer.parseInt(s_id));
+
+        req.getSession().setAttribute("targetUser", targetUser);
+        resp.sendRedirect(req.getContextPath() + "/modifiedUserInfo.html");
+
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void modifiedInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
+        String gender = req.getParameter("gender");
+        String phone = req.getParameter("phone");
+        String email = req.getParameter("email");
+        User targetUser = (User) req.getSession().getAttribute("targetUser");
+
+        String phoneRegex = "^1[3456789]\\d{9}$";
+        String emailRegex = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+
+        String errorMsg = "抱歉，信息修改失败！";
+        ResultInfo info = new ResultInfo();
+        //检验正确性
+        if (username == null || username == "" || gender == null || gender == "" || phone == null || phone == "" || email == null || email == "") {
+            errorMsg += "请不要保留空白项";
+            info.setErrorMsg(errorMsg);
+            info.setFlag(false);
+        } else if (username.equals(targetUser.getUsername()) && gender.equals(targetUser.getGender()) && phone.equals(targetUser.getPhone()) && email.equals(targetUser.getEmail())) {
+            //信息未发生修改
+            errorMsg += "信息未修改";
+            info.setErrorMsg(errorMsg);
+            info.setFlag(false);
+        } else if(!Pattern.matches(phoneRegex, phone)){
+            //手机号码不合法
+            errorMsg += "输入的电话号码不合法";
+            info.setErrorMsg(errorMsg);
+            info.setFlag(false);
+        } else if(!Pattern.matches(emailRegex, email)){
+            errorMsg += "输入的电子邮箱地址不合法";
+            info.setFlag(false);
+            info.setErrorMsg(errorMsg);
+        } else {
+            //修改成功
+            targetUser.setUsername(username);
+            targetUser.setGender(gender);
+            targetUser.setPhone(phone);
+            targetUser.setEmail(email);
+
+            service.modifiedInfo(targetUser);
+            info.setFlag(true);
+
+            if (targetUser.getId() == ((User) (req.getSession().getAttribute("user"))).getId()) {
+                //修改的是当前登录用户的信息，更新session域中的user
+                req.getSession().setAttribute("user", targetUser);
+            }
         }
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(info);

@@ -30,4 +30,8 @@ public interface UserService {
     public PageBean<User> findUserByPage(String currentPage, String rows);
 
     public void modifiedPWD(String password, int id);
+
+    public void modifiedInfo(User user);
+
+    public User findById(int id);
 }

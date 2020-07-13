@@ -30,4 +30,8 @@ public interface UserDao {
     public List<User> findByPage(int start, int rows);
 
     public void modifiedPWD(String password, int id);
+
+    public void modifiedInfo(User user);
+
+    public User findById(int id);
 }

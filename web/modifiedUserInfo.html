@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-修改信息</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+</head>
+<body>
+    <header id="header"></header>
+    <div style="display: flex;width: 100%;" id="content_height">
+        <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
+        <div class="homepage-background img-responsive">
+            <top-bar id="top-bar"></top-bar>
+            <div class="modified-password" style="justify-content: start">
+                <div class="container-fluid col-sm-9">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="username">
+                            </div>
+                            <div class="col-sm-4" id="usernameTips">
+
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex;">
+                            <label for="gender" class="col-sm-2 control-label">性别</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="gender" >
+                                    <option>男</option>
+                                    <option>女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 control-label">电话号码</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="phone">
+                            </div>
+                            <div class="col-sm-4" id="phoneTips">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">电子邮箱</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="email">
+                            </div>
+                            <div class="col-sm-4" id="emailTips">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" id="save">保存修改</button>
+                                <button type="button" class="btn btn-default" id="cancel">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <img class="img-responsive" src="image/modifiedUserInfo.jpg" alt="修改用户信息" height="250px" width="250px">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/content_height.js"></script>
+<script src="js/include.js"></script>
+<script>
+    $(function () {
+        //将用户信息填到修改页面
+        $.get("user/findAnother", {}, function (user) {
+            $("#username").val(user.username);
+            $("#phone").val(user.phone);
+            $("#email").val(user.email);
+            var gender = user.gender;
+            if(gender == "男"){
+                $("#gender option:first").prop("selected", true);
+            }else{
+                $("#gender option:last").prop("selected", true);
+            }
+        })
+
+        $("#cancel").click(function () {
+            if(confirm("您确定放弃修改吗?")){
+                window.location.href = "homepage.html";
+            }
+        });
+
+        $("#username").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#usernameTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">用户名不能为空！</span>');
+            }else{
+                $("#usernameTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#phone").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#phoneTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">用电话号码不能为空！</span>');
+            }else{
+                $("#phoneTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#email").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#emailTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">电子邮箱不能为空！</span>');
+            }else{
+                $("#emailTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#save").click(function () {
+            var username = $("#username").val();
+            var gender = $("#gender").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            $.post("user/modifiedInfo", {username:username, gender:gender, phone:phone, email:email}, function (data) {
+                if(data.flag){
+                    //成功修改
+                    location.href = "homepage.html";
+                }else{
+                    alert(data.errorMsg);
+                }
+            })
+        });
+    })
+</script>
+
+
+</body>
+</html>

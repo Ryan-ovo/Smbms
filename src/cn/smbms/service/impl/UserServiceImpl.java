@@ -71,4 +71,14 @@ public class UserServiceImpl implements UserService {
     public void modifiedPWD(String password, int id) {
         userDao.modifiedPWD(password, id);
     }
+
+    @Override
+    public void modifiedInfo(User user) {
+        userDao.modifiedInfo(user);
+    }
+
+    @Override
+    public User findById(int id) {
+        return userDao.findById(id);
+    }
 }
