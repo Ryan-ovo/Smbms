@@ -1,12 +1,9 @@
 package cn.smbms.dao;
 
 import cn.smbms.entity.User;
-import cn.smbms.tools.JDBCUtils;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lxd
@@ -25,9 +22,9 @@ public interface UserDao {
 
     public void delete(int id);
 
-    public int findTotalCount();
+    public int findTotalCount(Map<String, String[]> condition);
 
-    public List<User> findByPage(int start, int rows);
+    public List<User> findByPage(int start, int rows, Map<String, String[]> condition);
 
     public void modifiedPWD(String password, int id);
 }

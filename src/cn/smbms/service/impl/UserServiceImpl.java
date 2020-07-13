@@ -5,8 +5,8 @@ import cn.smbms.entity.PageBean;
 import cn.smbms.entity.User;
 import cn.smbms.service.UserService;
 
-import javax.tools.ForwardingFileObject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lxd
@@ -43,10 +43,11 @@ public class UserServiceImpl implements UserService {
      * 填充PageBean里的信息
      * @param _currentPage
      * @param _rows
+     * @param condition
      * @return
      */
     @Override
-    public PageBean<User> findUserByPage(String _currentPage, String _rows) {
+    public PageBean<User> findUserByPage(String _currentPage, String _rows, Map<String, String[]> condition) {
         int currentPage = Integer.parseInt(_currentPage);
         int rows = Integer.parseInt(_rows);
         //创建空的PageBean对象
@@ -54,12 +55,12 @@ public class UserServiceImpl implements UserService {
         pb.setCurrentPage(currentPage);
         pb.setRows(rows);
         //调用dao查询总记录数
-        int totalCount = userDao.findTotalCount();
+        int totalCount = userDao.findTotalCount(condition);
         pb.setTotalCount(totalCount);
         //调用dao查询List集合
         //记录开始的索引
         int start = (currentPage-1)* rows;
-        List<User> list = userDao.findByPage(start,rows);
+        List<User> list = userDao.findByPage(start,rows,condition);
         pb.setList(list);
         //计算总页码
         int totalPage = (totalCount % rows == 0) ? totalCount / rows : (totalCount / rows) + 1;

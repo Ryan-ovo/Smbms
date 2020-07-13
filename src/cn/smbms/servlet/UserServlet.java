@@ -15,6 +15,7 @@ import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lxd
@@ -160,7 +161,10 @@ public class UserServlet extends BaseServlet{
     public void findByPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String currentPage = req.getParameter("currentPage");
         String rows = req.getParameter("rows");
-        PageBean<User> pb = service.findUserByPage(currentPage,rows);
+
+        Map<String, String[]> condition = req.getParameterMap();
+
+        PageBean<User> pb = service.findUserByPage(currentPage,rows,condition);
         ObjectMapper mapper = new ObjectMapper();
         resp.setContentType("application/json;charset=utf-8");
         mapper.writeValue(resp.getOutputStream(),pb);

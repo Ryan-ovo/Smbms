@@ -4,6 +4,7 @@ import cn.smbms.entity.PageBean;
 import cn.smbms.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lxd
@@ -27,7 +28,7 @@ public interface UserService {
 
     public void deleteSelectedUser(String[] ids);
 
-    public PageBean<User> findUserByPage(String currentPage, String rows);
+    public PageBean<User> findUserByPage(String _currentPage, String _rows, Map<String, String[]> condition);
 
     public void modifiedPWD(String password, int id);
 }
