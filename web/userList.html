@@ -37,7 +37,7 @@
                         <label style="margin-right: 5px;" for="email">邮箱:</label>
                         <input type="text" class="form-control" id="email" name="email">
                     </div>
-                    <button type="submit" class="btn btn-tmp btn-primary " id="query">查询</button>
+                    <button type="button" class="btn btn-tmp btn-primary " id="query">查询</button>
 
                     <button type="submit" class="btn btn-tmp btn-danger " id="deleteSelected">删除选中</button>
                 </form>
@@ -96,8 +96,8 @@
         })
 
         $("#query").click(function () {
-            var username = $("input[name='username']");
-            var email = $("input[name='email']");
+            var username = $("input[name='username']").val();
+            var email = $("input[name='email']").val();
             load(1,7,username,email);
         })
 
