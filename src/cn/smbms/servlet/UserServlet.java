@@ -5,19 +5,19 @@ import cn.smbms.entity.ResultInfo;
 import cn.smbms.entity.User;
 import cn.smbms.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.beans.binding.ObjectBinding;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.Result;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -269,6 +269,11 @@ public class UserServlet extends BaseServlet{
         String gender = req.getParameter("gender");
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
+        String userimage = req.getParameter("userimage");
+        String imagename = req.getParameter("imagename");
+        System.out.println("头像："  + userimage);
+        System.out.println(imagename);
+
         User targetUser = (User) req.getSession().getAttribute("targetUser");
 
         String phoneRegex = "^1[3456789]\\d{9}$";
@@ -281,7 +286,7 @@ public class UserServlet extends BaseServlet{
             errorMsg += "请不要保留空白项";
             info.setErrorMsg(errorMsg);
             info.setFlag(false);
-        } else if (username.equals(targetUser.getUsername()) && gender.equals(targetUser.getGender()) && phone.equals(targetUser.getPhone()) && email.equals(targetUser.getEmail())) {
+        } else if (username.equals(targetUser.getUsername()) && gender.equals(targetUser.getGender()) && phone.equals(targetUser.getPhone()) && email.equals(targetUser.getEmail()) && (imagename == null || "".equals(imagename))) {
             //信息未发生修改
             errorMsg += "信息未修改";
             info.setErrorMsg(errorMsg);
@@ -295,7 +300,40 @@ public class UserServlet extends BaseServlet{
             errorMsg += "输入的电子邮箱地址不合法";
             info.setFlag(false);
             info.setErrorMsg(errorMsg);
+        } else if(imagename != null && !"".equals(imagename) && !imagename.contains(".jpg")){
+            errorMsg += "暂时只支持jpg格式头像图片";
+            info.setFlag(false);
+            info.setErrorMsg(errorMsg);
         } else {
+
+            //修改头像，只有上传了头像的情况下才会修改，不然不会修改原头像
+            if(userimage != null && !"".equals(userimage)){
+                if(userimage.startsWith("data:")){
+                    String[] strings = userimage.split(",");
+                    String head = strings[0];
+                    userimage = strings[1];
+                }
+                BASE64Decoder decoder = new BASE64Decoder();
+                byte[] bytes = decoder.decodeBuffer(userimage.replaceAll(" ", "+"));
+                System.out.println(Arrays.toString(bytes));
+                String fileName = req.getServletContext().getRealPath("image") + "\\" + "userimages\\"+ targetUser.getId() + ".jpg";
+                System.out.println("文件名：" + fileName);
+                File file = new File(fileName);
+                File dir = file.getParentFile();
+                if(dir == null || !dir.exists()){
+                    System.out.println(dir.mkdirs());
+                }
+                OutputStream out = null;
+                try {
+                    out = new FileOutputStream(file);
+                    out.write(bytes);
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             //修改成功
             targetUser.setUsername(username);
             targetUser.setGender(gender);

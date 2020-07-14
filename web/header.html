@@ -4,6 +4,7 @@
     $.get("user/findOne",{},function (data) {
         $("#strong_username").html(data.username);
         $("#userInfo").attr("href", "user/forwardModifiedInfo?id=" + data.id);
+        $("#loginUserImage").prop("src", "image/userimages/" + data.id + ".jpg");
     })
 </script>
 
@@ -21,7 +22,7 @@
                         <div class="menu-title" style="height: 80px; width: 150px;display: flex; padding: 5px 0;">
                             <!--头像-->
                             <div style="height: 70px; width: 70px; margin:0 10px;">
-                                <img src="image/profile.jpg" alt="个人头像" class="img-circle img-responsive">
+                                <img height="70px" width="70px" id="loginUserImage" alt="个人头像" class="img-circle img-responsive">
                             </div>
                             <!--信息-->
                             <div style="width:60px;display: flex; flex-direction: column;justify-content: space-around;">
