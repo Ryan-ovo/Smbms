@@ -5,7 +5,6 @@ import cn.smbms.entity.ResultInfo;
 import cn.smbms.entity.User;
 import cn.smbms.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import sun.misc.BASE64Decoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -313,8 +312,8 @@ public class UserServlet extends BaseServlet{
                     String head = strings[0];
                     userimage = strings[1];
                 }
-                BASE64Decoder decoder = new BASE64Decoder();
-                byte[] bytes = decoder.decodeBuffer(userimage.replaceAll(" ", "+"));
+                userimage = userimage.replace("\r\n", "");
+                byte[] bytes = Base64.getDecoder().decode(userimage.replaceAll(" ", "+"));
                 System.out.println(Arrays.toString(bytes));
                 String fileName = req.getServletContext().getRealPath("image") + "\\" + "userimages\\"+ targetUser.getId() + ".jpg";
                 System.out.println("文件名：" + fileName);
