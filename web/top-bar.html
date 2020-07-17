@@ -9,8 +9,10 @@
         var loc = "";
         if (cur === "homepage.html"){
 
-        }else if(cur === "userList.html"){
+        }else if(cur === "userList.html" || cur === "modifiedUserInfo.html"){
             loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">用户管理</span></a>';
+        }else if(cur == 'providerList.html' || cur === "modifiedProviderInfo.html"){
+            loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">供应商管理</span></a>';
         }
 
         $("#dynamic_bar").append(loc);

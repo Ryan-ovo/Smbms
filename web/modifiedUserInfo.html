@@ -121,7 +121,7 @@
         $("#phone").blur(function () {
             if(this.value == null || this.value == ""){
                 $("#phoneTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
-                    '                                <span class="tips">用电话号码不能为空！</span>');
+                    '                                <span class="tips">用户电话号码不能为空！</span>');
             }else{
                 $("#phoneTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
             }
@@ -152,7 +152,7 @@
                 success: function (data) {
                     if(data.flag){
                         //成功修改
-                        location.href = "homepage.html";
+                        location.href = "userList.html";
                     }else{
                         alert(data.errorMsg);
                     }

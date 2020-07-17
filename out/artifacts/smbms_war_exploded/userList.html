@@ -30,12 +30,15 @@
         <!--功能框(条件查询、删除选中、创建)-->
         <div style="margin: 10px 0; background: white; padding: 5px 10px; display: flex;justify-content: space-between; border-radius: 15px;border:solid 1px lightgrey;">
             <div style="width: 100%;">
-                <form class="form-inline" style="display: flex;">
+                <form id="queryForm" class="form-inline" style="display: flex;">
                     <div class="form-group" style="display: flex; margin: 5px;">
-                        <label style="margin-right: 5px;" for="productName">用户名</label>
-                        <input type="text" class="form-control" id="productName">
+                        <label style="margin-right: 5px;" for="username">用户名:</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                        <label style="margin-right: 5px;" for="email">邮箱:</label>
+                        <input type="text" class="form-control" id="email" name="email">
                     </div>
-                    <button type="submit" class="btn btn-tmp btn-primary ">查询用户</button>
+                    <button type="button" class="btn btn-tmp btn-primary " id="query">查询</button>
+
                     <button type="submit" class="btn btn-tmp btn-danger " id="deleteSelected">删除选中</button>
                 </form>
             </div>
@@ -68,7 +71,7 @@
 <script>
     $(function () {
 
-        load(1,7);
+        load(1,7,null,null);
 
         function deleteUser(id) {
             if (confirm("您确定要删除吗?")){
@@ -92,12 +95,18 @@
             }
         })
 
+        $("#query").click(function () {
+            var username = $("input[name='username']").val();
+            var email = $("input[name='email']").val();
+            load(1,7,username == "" ? null : username ,email == "" ? null : email);
+        })
+
 
 
     })
 
-    function load(currentPage,rows) {
-        $.get("user/findByPage",{currentPage:currentPage,rows:rows},function (pb) {
+    function load(currentPage,rows,username,email) {
+        $.get("user/findByPage",{currentPage:currentPage,rows:rows,username:username,email:email},function (pb) {
             //展示总页码和总记录数
             $("#totalPage").html(pb.totalPage);
             $("#totalCount").html(pb.totalCount);
@@ -116,7 +125,7 @@
                     '    </a>\n' +
                     '</li>'
             }else{
-                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+')">\n' +
+                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')">\n' +
                     '    <a href="javascript:void(0)" aria-label="Previous">\n' +
                     '         <span aria-hidden="true">&laquo;</span>\n' +
                     '    </a>\n' +
@@ -128,9 +137,9 @@
             for (var i = 1; i <= pb.totalPage; i++) {
                 var li;
                 if (pb.currentPage == i){
-                    li = '<li class="active" onclick="javascript:load('+i+','+rows+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    li = '<li class="active" onclick="javascript:load('+i+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')"><a href="javascript:void(0)">'+i+'</a></li>';
                 }else{
-                    li = '<li onclick="javascript:load('+i+','+rows+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    li = '<li onclick="javascript:load('+i+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')"><a href="javascript:void(0)">'+i+'</a></li>';
                 }
                 list += li;
             }
@@ -148,7 +157,7 @@
                     '    </a>\n' +
                     '</li>';
             }else {
-                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+')">\n' +
+                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')">\n' +
                     '    <a href="javascript:void(0)" aria-label="Next">\n' +
                     '        <span aria-hidden="true">&raquo;</span>\n' +
                     '    </a>\n' +
@@ -181,7 +190,7 @@
                     '<td>'+user.email+'</td>\n' +
                     '<td>'+user.createDate+'</td>\n' +
                     '<td>\n' +
-                    '<a class="btn btn-warning" href="#" role="button">修改</a>\n' +
+                    '<a class="btn btn-warning" href="user/forwardModifiedInfo?id=' + user.id + '"  role="button">修改</a>\n' +
                     '<a class="btn btn-danger" href="javascript:deleteUser('+user.id+');" role="button">删除</a>\n' +
                     '</td>\n' +
                     '</tr>';
