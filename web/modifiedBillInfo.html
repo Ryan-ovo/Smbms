@@ -74,9 +74,7 @@
                             <label for="providerId" class="col-sm-2 control-label">供应商</label>
                             <div class="col-sm-6">
                                 <select class="form-control" id="providerId" >
-                                    <option value="1">北京阿萨德食用油有限公司</option>
-                                    <option value="1">北京阿萨德食用油有限公司</option>
-                                    <option value="2">大连孔繁森日用品批发市场</option>
+
                                 </select>
                             </div>
                         </div>
@@ -112,6 +110,16 @@
             $("#category option[value=" + data.category + "]").prop("selected", "selected");
             $("#isPay option[value=" + data.isPay + "]").prop("selected", "selected");
             $("#providerId option[value=" + data.providerId + "]").prop("selected", "selected");
+        })
+
+        $.get("provider/findAll", {}, function (providerList) {
+            var nameList = '';
+            for(var i = 0; i < providerList.length; i++){
+                var providerName = providerList[i].providerName;
+                nameList += '<option value="'+ providerList[i].id+'">'+ providerName +'</option>';
+            }
+            $("#providerId").html(nameList);
+
         })
 
         $("#cancel").click(function () {

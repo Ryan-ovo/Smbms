@@ -74,9 +74,7 @@
                             <label for="providerId" class="col-sm-2 control-label">供应商</label>
                             <div class="col-sm-6">
                                 <select class="form-control" id="providerId" >
-                                    <option value="1">北京阿萨德食用油有限公司</option>
-                                    <option value="1">北京阿萨德食用油有限公司</option>
-                                    <option value="2">大连孔繁森日用品批发市场</option>
+
                                 </select>
                             </div>
                         </div>
@@ -104,6 +102,16 @@
 <script src="js/include.js"></script>
 <script>
     $(function () {
+
+        $.get("provider/findAll", {}, function (providerList) {
+            var nameList = '';
+            for(var i = 0; i < providerList.length; i++){
+                var providerName = providerList[i].providerName;
+                nameList += '<option value="'+ providerList[i].id+'">'+ providerName +'</option>';
+            }
+            $("#providerId").html(nameList);
+
+        })
 
         $("#cancel").click(function () {
             if(confirm("您确定放弃创建吗?")){

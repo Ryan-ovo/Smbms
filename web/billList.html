@@ -48,12 +48,8 @@
                         <button type="button" id="providerName" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="0">
                             请选择<span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:change('providerName', '0', '请选择')">请选择...</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:change('providerName', '1', '北京阿萨德食用油有限公司')">北京阿萨德食用油有限公司</a></li>
-                            <li><a href="javascript:change('providerName', '1', '北京阿萨德食用油有限公司')">北京阿萨德食用油有限公司</a></li>
-                            <li><a href="javascript:change('providerName', '2', '大连孔繁森日用品批发市场')">大连孔繁森日用品批发市场</a></li>
+                        <ul class="dropdown-menu" id="providerNameList">
+
                         </ul>
                     </div>
 
@@ -117,6 +113,17 @@
     $(function () {
 
         load(1,7,null,null,null,null);//四个参数分别代表商品名称、分类、供应商与是否付款
+
+        $.get("provider/findAll", {}, function (providerList) {
+            var nameList = '<li><a href="javascript:change(\'providerName\', \'0\', \'请选择\')">请选择...</a></li>\n' +
+                '                            <li role="separator" class="divider"></li>';
+            for(var i = 0; i < providerList.length; i++){
+                var providerName = providerList[i].providerName;
+                nameList += '<li><a href="javascript:change(\'providerName\',' + providerList[i].id + ' , \'' + providerName+'\')">' + providerName + '</a></li>'
+            }
+            $("#providerNameList").html(nameList);
+
+        })
 
         $("#deleteSelected").click(function () {
             if (confirm("您确定要删除选中条目吗?")){
