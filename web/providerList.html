@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>超市订单管理系统-订单管理</title>
+    <title>超市订单管理系统-供应商管理</title>
     <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
     <link rel="stylesheet" type="text/css" href="font/iconfont.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -12,12 +12,11 @@
     <link rel="stylesheet" href="css/contentStyle.css">
 
     <script>
-        function deleteUser(id) {
+        function deleteProvider(id) {
             if (confirm("您确定要删除吗?")){
-                location.href = "user/delete?id="+id;
+                location.href = "provider/delete?pid="+id;
             }
         }
-
     </script>
 
 </head>
@@ -32,15 +31,20 @@
             <div style="width: 100%;">
                 <form id="queryForm" class="form-inline" style="display: flex;">
                     <div class="form-group" style="display: flex; margin: 5px;">
-                        <label style="margin-right: 5px;" for="username">用户名:</label>
-                        <input type="text" class="form-control" id="username" name="username">
-                        <label style="margin-right: 5px;" for="email">邮箱:</label>
-                        <input type="text" class="form-control" id="email" name="email">
+                        <label style="margin-right: 5px;" for="providerName">供应商:</label>
+                        <input type="text" class="form-control" id="providerName" name="providerName">
+                        <label style="margin-right: 5px;" for="contact">联系人:</label>
+                        <input type="text" class="form-control" id="contact" name="contact">
+                        <label style="margin-right: 5px;" for="address">地址:</label>
+                        <input type="text" class="form-control" id="address" name="address">
                     </div>
                     <button type="button" class="btn btn-tmp btn-primary " id="query">查询</button>
 
                     <button type="submit" class="btn btn-tmp btn-danger " id="deleteSelected">删除选中</button>
                 </form>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-lg btn-success" style="display: flex; align-items: center;" id="addProvider"><i class="ri-add-circle-line ri-lg"></i> 创建新供应商 </button>
             </div>
 
         </div>
@@ -71,18 +75,18 @@
 <script>
     $(function () {
 
-        load(1,7,null,null);
+        load(1,7,null,null,null);
 
-        function deleteUser(id) {
+        function deleteProvider(id) {
             if (confirm("您确定要删除吗?")){
-                location.href = "user/delete?id="+id;
+                location.href = "provider/delete?pid="+id;
             }
         }
 
         $("#deleteSelected").click(function () {
             if (confirm("您确定要删除选中条目吗?")){
                 var flag = false;
-                var cbs = $("input[name=uid]");
+                var cbs = $("input[name='pid']");
                 for (var i = 0; i < cbs.length; i++) {
                     if (cbs[i].checked){
                         flag = true;
@@ -90,23 +94,28 @@
                     }
                 }
                 if (flag) {
-                    $.get("user/deleteSelected",$("#selectedForm").serialize());
+                    $.get("provider/deleteSelected",$("#selectedForm").serialize());
                 }
             }
         })
 
         $("#query").click(function () {
-            var username = $("input[name='username']").val();
-            var email = $("input[name='email']").val();
-            load(1,7,username == "" ? null : username ,email == "" ? null : email);
+            var providerName = $("input[name='providerName']").val();
+            var contact = $("input[name='contact']").val();
+            var address = $("input[name='address']").val();
+            load(1,7,(providerName == "" ? null : providerName), (contact == "" ? null : contact), (address == "" ? null : address));
+        })
+
+        $("#addProvider").click(function () {
+            location.href = "addProvider.html";
         })
 
 
 
     })
 
-    function load(currentPage,rows,username,email) {
-        $.get("user/findByPage",{currentPage:currentPage,rows:rows,username:username,email:email},function (pb) {
+    function load(currentPage,rows,providerName,contact,address) {
+        $.get("provider/findByPage",{currentPage:currentPage,rows:rows,providerName:providerName,contact:contact,address:address},function (pb) {
             //展示总页码和总记录数
             $("#totalPage").html(pb.totalPage);
             $("#totalCount").html(pb.totalCount);
@@ -125,7 +134,7 @@
                     '    </a>\n' +
                     '</li>'
             }else{
-                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')">\n' +
+                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+','+String((providerName == null ? null : "'" + providerName + "'") + "," + (contact == null ? null: "'" + contact + "'") + "," + (address == null ? null: "'" + address + "'"))+')">\n' +
                     '    <a href="javascript:void(0)" aria-label="Previous">\n' +
                     '         <span aria-hidden="true">&laquo;</span>\n' +
                     '    </a>\n' +
@@ -137,9 +146,9 @@
             for (var i = 1; i <= pb.totalPage; i++) {
                 var li;
                 if (pb.currentPage == i){
-                    li = '<li class="active" onclick="javascript:load('+i+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    li = '<li class="active" onclick="javascript:load('+i+','+rows+','+String((providerName == null ? null : "'" + providerName + "'") + "," + (contact == null ? null: "'" + contact + "'") + "," + (address == null ? null: "'" + address + "'"))+')"><a href="javascript:void(0)">'+i+'</a></li>';
                 }else{
-                    li = '<li onclick="javascript:load('+i+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    li = '<li onclick="javascript:load('+i+','+rows+','+String((providerName == null ? null : "'" + providerName + "'") + "," + (contact == null ? null: "'" + contact + "'") + "," + (address == null ? null: "'" + address + "'"))+')"><a href="javascript:void(0)">'+i+'</a></li>';
                 }
                 list += li;
             }
@@ -157,7 +166,7 @@
                     '    </a>\n' +
                     '</li>';
             }else {
-                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+','+String((username == null ? null : "'" + username + "'") + "," + (email == null ? null: "'" + email + "'"))+')">\n' +
+                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+','+String((providerName == null ? null : "'" + providerName + "'") + "," + (contact == null ? null: "'" + contact + "'") + "," + (address == null ? null: "'" + address + "'"))+')">\n' +
                     '    <a href="javascript:void(0)" aria-label="Next">\n' +
                     '        <span aria-hidden="true">&raquo;</span>\n' +
                     '    </a>\n' +
@@ -171,34 +180,36 @@
             //获取分页数据
             var page = '<tr class="info">\n' +
                 '                        <th><input type="checkbox" id="firstCb"> 全选</th>\n' +
-                '                        <th>用户编号</th>\n' +
-                '                        <th>用户名</th>\n' +
-                '                        <th>性别</th>\n' +
-                '                        <th>电话</th>\n' +
-                '                        <th>邮箱</th>\n' +
-                '                        <th>创建时间</th>\n' +
+                '                        <th>编号</th>\n' +
+                '                        <th>供应商名称</th>\n' +
+                '                        <th>联系人</th>\n' +
+                '                        <th>联系电话</th>\n' +
+                '                        <th>地址</th>\n' +
+                '                        <th>修改人</th>\n' +
+                '                        <th>修改时间</th>\n' +
                 '                        <th>操作</th>\n' +
                 '                    </tr>';
             for (var i = 0; i < pb.list.length; i++) {
-                var user = pb.list[i];
+                var provider = pb.list[i];
                 page += '<tr>\n' +
-                    '<td><input type="checkbox" name="uid" value="'+user.id+'"></td>\n' +
-                    '<td>'+user.id+'</td>\n' +
-                    '<td>'+user.username+'</td>\n' +
-                    '<td>'+user.gender+'</td>\n' +
-                    '<td>'+user.phone+'</td>\n' +
-                    '<td>'+user.email+'</td>\n' +
-                    '<td>'+user.createDate+'</td>\n' +
+                    '<td><input type="checkbox" name="pid" value="'+provider.id+'"></td>\n' +
+                    '<td>'+provider.id+'</td>\n' +
+                    '<td>'+provider.providerName+'</td>\n' +
+                    '<td>'+provider.contact+'</td>\n' +
+                    '<td>'+provider.phone+'</td>\n' +
+                    '<td>'+provider.address+'</td>\n' +
+                    '<td>'+provider.modifyBy+'</td>\n' +
+                    '<td>'+provider.modifyDate+'</td>\n' +
                     '<td>\n' +
-                    '<a class="btn btn-warning" href="user/forwardModifiedInfo?id=' + user.id + '"  role="button">修改</a>\n' +
-                    '<a class="btn btn-danger" href="javascript:deleteUser('+user.id+');" role="button">删除</a>\n' +
+                    '<a class="btn btn-warning" href="provider/forwardModifiedInfo?pid=' + provider.id + '"  role="button">修改</a>\n' +
+                    '<a class="btn btn-danger" href="javascript:deleteProvider('+provider.id+');" role="button">删除</a>\n' +
                     '</td>\n' +
                     '</tr>';
             }
             $(".table").html(page);
 
             $("#firstCb").click(function () {
-                var cbs = $("input[name='uid']");
+                var cbs = $("input[name='pid']");
                 for (var i = 0; i < cbs.length; i++) {
                     cbs[i].checked = this.checked;
                 }

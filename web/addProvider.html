@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-修改信息</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+</head>
+<body>
+<header id="header"></header>
+<div style="display: flex;width: 100%;" id="content_height">
+    <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
+    <div class="homepage-background img-responsive">
+        <top-bar id="top-bar"></top-bar>
+        <div class="modified-password" style="justify-content: start">
+            <div class="container-fluid col-sm-9">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="providerName" class="col-sm-2 control-label">供应商名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="providerName" name="providerName">
+                        </div>
+                        <div class="col-sm-4" id="providerTips">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact" class="col-sm-2 control-label">联系人</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="contact" name="contact">
+                        </div>
+                        <div class="col-sm-4" id="contactTips">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="phone" name="phone">
+                        </div>
+                        <div class="col-sm-4" id="phoneTips">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="address" name="address">
+                        </div>
+                        <div class="col-sm-4" id="addressTips">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-primary" id="save">新建</button>
+                            <button type="button" class="btn btn-default" id="cancel">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <img class="img-responsive" src="image/modifiedUserInfo.jpg" alt="创建供应商" height="250px" width="250px">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/content_height.js"></script>
+<script src="js/include.js"></script>
+<script>
+    $(function () {
+
+        $("#cancel").click(function () {
+            if(confirm("您确定放弃创建吗?")){
+                window.location.href = "providerList.html";
+            }
+        });
+
+        $("#providerName").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#providerTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">供应商名不能为空！</span>');
+            }else{
+                $("#providerTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#contact").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#contactTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">联系人不能为空！</span>');
+            }else{
+                $("#contactTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#phone").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#phoneTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">联系电话不能为空！</span>');
+            }else{
+                $("#phoneTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#address").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#addressTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">地址不能为空！</span>');
+            }else{
+                $("#addressTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#save").click(function () {
+            var providerName = $("input[name='providerName']").val();
+            var contact = $("input[name='contact']").val();
+            var phone = $("input[name='phone']").val();
+            var address = $("input[name='address']").val();
+            $.get("provider/addProvider",{providerName:providerName, contact:contact, phone:phone, address:address}, function (data) {
+                if (data.flag){
+                    location.href = "providerList.html";
+                }else{
+                    alert(data.errorMsg);
+                }
+            })
+        });
+    })
+</script>
+
+
+</body>
+</html>

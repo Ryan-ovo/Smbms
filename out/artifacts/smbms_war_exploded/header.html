@@ -3,6 +3,8 @@
 <script>
     $.get("user/findOne",{},function (data) {
         $("#strong_username").html(data.username);
+        $("#userInfo").attr("href", "user/forwardModifiedInfo?id=" + data.id);
+        $("#loginUserImage").prop("src", "image/userimages/" + data.id + ".jpg");
     })
 </script>
 
@@ -20,7 +22,7 @@
                         <div class="menu-title" style="height: 80px; width: 150px;display: flex; padding: 5px 0;">
                             <!--头像-->
                             <div style="height: 70px; width: 70px; margin:0 10px;">
-                                <img src="image/profile.jpg" alt="个人头像" class="img-circle img-responsive">
+                                <img height="70px" width="70px" id="loginUserImage" alt="个人头像" class="img-circle img-responsive">
                             </div>
                             <!--信息-->
                             <div style="width:60px;display: flex; flex-direction: column;justify-content: space-around;">
@@ -30,7 +32,7 @@
                         </div>
                         <!--下拉菜单-->
                         <ul class="menu-dropdown" style="width: 150px;">
-                            <li><i class="ri-profile-line" style="margin: 0 10px;"></i><a href="https://www.baidu.com/?tn=02003390_43_hao_pg">个人信息</a></li>
+                            <li><i class="ri-profile-line" style="margin: 0 10px;"></i><a id="userInfo">个人信息</a></li>
                             <li><i class="ri-lock-line" style="margin: 0 10px;"></i><a href="modifiedPassword.html">修改密码</a></li>
                             <li><i class="ri-shut-down-line" style="margin: 0 10px;"></i><a href="user/exit">退出</a></li>
                         </ul>
