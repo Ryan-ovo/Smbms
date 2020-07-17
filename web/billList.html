@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-订单管理</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+
+</head>
+<body>
+<header id="header"></header>
+<div style="display: flex;width: 100%;" id="content_height">
+    <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
+    <div class="homepage-background img-responsive">
+        <top-bar id="top-bar"></top-bar>
+        <!--功能框(条件查询、删除选中、创建)-->
+        <div style="margin: 10px 0; background: white; padding: 5px 10px; display: flex;justify-content: space-between; border-radius: 15px;border:solid 1px lightgrey;">
+            <div style="width: 100%;">
+                <form id="queryForm" class="form-inline" style="display: flex;">
+                    <div class="form-group" style="display: flex; margin: 5px;">
+                        <label style="margin-right: 5px;" for="productName">商品名称</label>
+                        <input type="text" class="form-control" id="productName" name="productName">
+                    </div>
+                    <div class="btn-group" style="display: flex;margin: 5px;">
+                        <label style="margin-right: 5px;" for="category">商品分类</label>
+                        <button type="button" id="category" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="请选择">
+                            请选择<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:change('category', '请选择', '请选择')">请选择...</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:change('category', '日用品', '日用品')">日用品</a></li>
+                            <li><a href="javascript:change('category', '食品', '食品')">一般食品</a></li>
+                            <li><a href="javascript:change('category', '果蔬', '果蔬')">果蔬</a></li>
+                            <li><a href="javascript:change('category', '饮品', '饮品')">饮品</a></li>
+                            <li><a href="javascript:change('category', '玩具', '玩具')">玩具</a></li>
+                            <li><a href="javascript:change('category', '运动器材', '运动器材')">运动器材</a></li>
+                            <li><a href="javascript:change('category', '五金', '五金')">五金</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group" style="display: flex; margin: 5px;">
+                        <label style="margin-right: 5px;" for="providerName">供应商</label>
+                        <button type="button" id="providerName" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="0">
+                            请选择<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:change('providerName', '0', '请选择')">请选择...</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:change('providerName', '1', '北京阿萨德食用油有限公司')">北京阿萨德食用油有限公司</a></li>
+                            <li><a href="javascript:change('providerName', '1', '北京阿萨德食用油有限公司')">北京阿萨德食用油有限公司</a></li>
+                            <li><a href="javascript:change('providerName', '2', '大连孔繁森日用品批发市场')">大连孔繁森日用品批发市场</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="btn-group" style="display: flex;margin: 5px;">
+                        <label style="margin-right: 5px;" for="isPay">是否付款</label>
+                        <button type="button" id="isPay" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="0">
+                            请选择<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:change('isPay', '0', '请选择')">请选择...</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:change('isPay', '1', '已付款')">已付款</a></li>
+                            <li><a href="javascript:change('isPay', '2', '未付款')">未付款</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-tmp btn-primary " id="query">查询订单</button>
+
+                    <button type="submit" class="btn btn-tmp btn-danger " id="deleteSelected">删除选中</button>
+                </form>
+            </div>
+            <button type="button" class="btn btn-success btn-lg" id="addBill">创建新订单</button>
+        </div>
+        <!--表格信息-->
+        <div style="background: white; margin-top: 15px; border:solid 1px lightgrey;">
+            <form id="selectedForm">
+                <table class="table table-hover table-striped table-responsive">
+
+                </table>
+            </form>
+
+            <div style="display: flex;justify-content: center;">
+                <nav aria-label="Page navigation">
+                    <div style="text-align: center">共<span id="totalPage"></span>页，<span id="totalCount"></span>条数据</div>
+                    <ul class="pagination" id="pageNum">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script src="js/include.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/content_height.js"></script>
+<script>
+    function deleteBill(id){
+        if (confirm("您确定要删除吗?")){
+            location.href = "bill/delete?id="+id;
+        }
+    }
+
+    function change(id, value, name){
+        $("#" + id).val(value);
+        $("#" + id).html(name + '<span class=\"caret\"></span>');
+    }
+
+
+
+    $(function () {
+
+        load(1,7,null,null,null,null);//四个参数分别代表商品名称、分类、供应商与是否付款
+
+        $("#deleteSelected").click(function () {
+            if (confirm("您确定要删除选中条目吗?")){
+                var flag = false;
+                var cbs = $("input[name=uid]");
+                for (var i = 0; i < cbs.length; i++) {
+                    if (cbs[i].checked){
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    $.get("bill/deleteSelected",$("#selectedForm").serialize());
+                }
+            }
+        })
+
+        $("#query").click(function () {
+            var productName = $("input[name='productName']").val();
+            var category = $("#category").val();
+            var isPay = $("#isPay").val();
+            var providerId = $("#providerName").val();
+            load(1,7,productName == "" ? null:productName,category == "请选择" ? null:category,providerId == "0" ? null:providerId,isPay == "0" ? null : isPay);
+        })
+
+        $("#addBill").click(function () {
+            location.href = "createBill.html";
+        });
+
+
+
+    })
+
+    function load(currentPage, rows, productName, category, providerId, isPay) {
+        $.get("bill/findByPage",{currentPage:currentPage,rows:rows,productName:productName,category:category,providerId:providerId,isPay:isPay},function (pb) {
+            //展示总页码和总记录数
+            //alert(productName + " " + category + " " + providerId + " "+ isPay)
+            $("#totalPage").html(pb.totalPage);
+            $("#totalCount").html(pb.totalCount);
+
+            var list = "";
+            //计算上一页的页码
+            var beforeNum = pb.currentPage-1;
+            if (beforeNum <= 0){
+                beforeNum = 1;
+            }
+            var beforePage;
+            if (pb.currentPage === 1){
+                beforePage = '<li class="disabled" ">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Previous">\n' +
+                    '         <span aria-hidden="true">&laquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>'
+            }else{
+                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Previous">\n' +
+                    '         <span aria-hidden="true">&laquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>'
+            }
+
+            list += beforePage;
+
+            for (var i = 1; i <= pb.totalPage; i++) {
+                var li;
+                if (pb.currentPage == i){
+                    li = '<li class="active" onclick="javascript:load('+i+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')"><a href="javascript:void(0)">'+i+'</a></li>';
+                }else{
+                    li = '<li onclick="javascript:load('+i+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')"><a href="javascript:void(0)">'+i+'</a></li>';
+                }
+                list += li;
+            }
+
+            var nextNum = pb.currentPage+1;
+            if (nextNum > pb.totalPage){
+                nextNum = pb.totalPage;
+            }
+
+            var nextPage;
+            if (pb.currentPage === pb.totalPage){
+                nextPage =  '<li class="disabled">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Next">\n' +
+                    '        <span aria-hidden="true">&raquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>';
+            }else {
+                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')">\n' +
+                    '    <a href="javascript:void(0)" aria-label="Next">\n' +
+                    '        <span aria-hidden="true">&raquo;</span>\n' +
+                    '    </a>\n' +
+                    '</li>';
+            }
+
+
+            list += nextPage;
+            $("#pageNum").html(list);
+
+            //获取分页数据
+            var page = '<tr class="info">\n' +
+                '                        <th><input type="checkbox" id="firstCb"> 全选</th>\n' +
+                '                        <th>订单号</th>\n' +
+                '                        <th>商品名称</th>\n' +
+                '                        <th>商品类别</th>\n' +
+                '                        <th>购买数量</th>\n' +
+                '                        <th>订单价格</th>\n' +
+                '                        <th>是否付款</th>\n' +
+                '                        <th>供应商</th>\n' +
+                '                        <th>创建人</th>\n' +
+                '                        <th>创建时间</th>\n' +
+                '                        <th>操作</th>\n' +
+                '                    </tr>';
+            for (var i = 0; i < pb.list.length; i++) {
+                var bill = pb.list[i];
+                var Pay = bill.isPay == 1 ? "已付款":"未付款";
+                page += '<tr>\n' +
+                    '<td><input type="checkbox" name="uid" value="'+bill.id+'"></td>\n' +
+                    '<td>'+bill.id+'</td>\n' +
+                    '<td>'+bill.productName+'</td>\n' +
+                    '<td>'+bill.category+'</td>\n' +
+                    '<td>'+bill.count+'</td>\n' +
+                    '<td>'+bill.totalPrice+'</td>\n' +
+                    '<td>'+Pay+'</td>\n' +
+                    '<td>'+bill.providerName+'</td>\n' +
+                    '<td>'+bill.createdBy+'</td>\n' +
+                    '<td>'+bill.createdDate+'</td>\n' +
+                    '<td>\n' +
+                    '<a class="btn btn-warning" href="bill/findById?id=' + bill.id + '"  role="button">修改</a>\n' +
+                    '<a class="btn btn-danger" href="javascript:deleteBill('+bill.id+');" role="button">删除</a>\n' +
+                    '</td>\n' +
+                    '</tr>';
+            }
+            $(".table").html(page);
+
+            $("#firstCb").click(function () {
+                var cbs = $("input[name='uid']");
+                for (var i = 0; i < cbs.length; i++) {
+                    cbs[i].checked = this.checked;
+                }
+            })
+        })
+    }
+</script>
+</body>
+</html>

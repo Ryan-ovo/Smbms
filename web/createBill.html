@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>超市订单管理系统-修改信息</title>
+    <link rel="stylesheet" type="text/css" href="css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/remixicon.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/topLeftStyle.css">
+    <link rel="stylesheet" href="css/contentStyle.css">
+</head>
+<body>
+    <header id="header"></header>
+    <div style="display: flex;width: 100%;" id="content_height">
+        <left-side-menu id="left-side-menu" class="left-side-menu"></left-side-menu>
+        <div class="homepage-background img-responsive">
+            <top-bar id="top-bar"></top-bar>
+            <div class="modified-password" style="justify-content: start">
+                <div class="container-fluid col-sm-9">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="productName" class="col-sm-2 control-label">商品名称</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="productName">
+                            </div>
+                            <div class="col-sm-4" id="productNameTips">
+
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex;">
+                            <label for="category" class="col-sm-2 control-label">商品类别</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="category" >
+                                    <option>日用品</option>
+                                    <option>食品</option>
+                                    <option>果蔬</option>
+                                    <option>饮品</option>
+                                    <option>玩具</option>
+                                    <option>运动器材</option>
+                                    <option>五金</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="count" class="col-sm-2 control-label">数量</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="count">
+                            </div>
+                            <div class="col-sm-4" id="countTips">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="totalPrice" class="col-sm-2 control-label">账单价格</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="totalPrice">
+                            </div>
+                            <div class="col-sm-4" id="totalPriceTips">
+
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex;">
+                            <label for="isPay" class="col-sm-2 control-label">是否付款</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="isPay" >
+                                    <option value="2">未付款</option>
+                                    <option value="1">已付款</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex;">
+                            <label for="providerId" class="col-sm-2 control-label">供应商</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="providerId" >
+                                    <option value="1">北京阿萨德食用油有限公司</option>
+                                    <option value="1">北京阿萨德食用油有限公司</option>
+                                    <option value="2">大连孔繁森日用品批发市场</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" id="save">创建订单</button>
+                                <button type="button" class="btn btn-default" id="cancel">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <img class="img-responsive" src="image/modifiedUserInfo.jpg" alt="修改用户信息" height="250px" width="250px">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/content_height.js"></script>
+<script src="js/include.js"></script>
+<script>
+    $(function () {
+
+        $("#cancel").click(function () {
+            if(confirm("您确定放弃创建吗?")){
+                window.location.href = "homepage.html";
+            }
+        });
+
+        $("#productName").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#productNameTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">商品名称不能为空！</span>');
+            }else{
+                $("#productNameTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#count").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#countTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">商品数量不能为空！</span>');
+            }else if(isNaN(Number(this.value))){
+                $("#countTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">请勿输入非数字内容！</span>');
+            }else{
+                $("#countTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#totalPrice").blur(function () {
+            if(this.value == null || this.value == ""){
+                $("#totalPriceTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">订单价格不能为空！</span>');
+            }else if(isNaN(Number(this.value))){
+                $("#totalPriceTips").html('<img src="image/emotion-unhappy-line.png" alt="Tips" height="24px" width="24px">\n' +
+                    '                                <span class="tips">请勿输入非数字内容！</span>');
+            }else{
+                $("#totalPriceTips").html('<img src="image/emotion-happy-line.png" alt="Tips" height="24px" width="24px">');
+            }
+        });
+
+        $("#save").click(function () {
+            var productName = $("#productName").val();
+            var category = $("#category").val();
+            var count = $("#count").val();
+            var totalPrice = $("#totalPrice").val();
+            var isPay = $("#isPay").val();
+            var providerId = $("#providerId").val();
+
+            $.get("bill/add", {productName:productName,category:category,count:count,totalPrice:totalPrice,isPay:isPay,providerId:providerId}, function (data) {
+                if(data.flag){
+                    //成功创建
+                    location.href = "homepage.html";
+                }else{
+                    alert(data.errorMsg);
+                }
+            });
+        });
+    })
+</script>
+
+
+</body>
+</html>
