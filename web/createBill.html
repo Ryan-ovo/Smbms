@@ -33,13 +33,7 @@
                             <label for="category" class="col-sm-2 control-label">商品类别</label>
                             <div class="col-sm-6">
                                 <select class="form-control" id="category" >
-                                    <option>日用品</option>
-                                    <option>食品</option>
-                                    <option>果蔬</option>
-                                    <option>饮品</option>
-                                    <option>玩具</option>
-                                    <option>运动器材</option>
-                                    <option>五金</option>
+
                                 </select>
                             </div>
                         </div>
@@ -102,6 +96,14 @@
 <script src="js/include.js"></script>
 <script>
     $(function () {
+
+        $.get("category/findAll", {}, function (categories) {
+            var nameList = '';
+            for(var i = 0; i < categories.length; i++){
+                nameList += '<option value="'+ categories[i].id+'">'+ categories[i].name +'</option>';
+            }
+            $("#category").html(nameList);
+        })
 
         $.get("provider/findAll", {}, function (providerList) {
             var nameList = '';

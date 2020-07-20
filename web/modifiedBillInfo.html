@@ -33,13 +33,7 @@
                             <label for="category" class="col-sm-2 control-label">商品类别</label>
                             <div class="col-sm-6">
                                 <select class="form-control" id="category" >
-                                    <option value="日用品">日用品</option>
-                                    <option value="食品">食品</option>
-                                    <option value="果蔬">果蔬</option>
-                                    <option value="饮品">饮品</option>
-                                    <option value="玩具">玩具</option>
-                                    <option value="运动器材">运动器材</option>
-                                    <option value="五金">五金</option>
+
                                 </select>
                             </div>
                         </div>
@@ -101,6 +95,26 @@
 <script src="js/content_height.js"></script>
 <script src="js/include.js"></script>
 <script>
+    $.get("category/findAll", {}, function (categories) {
+        var nameList = '';
+        for(var i = 0; i < categories.length; i++){
+            nameList += '<option value="'+ categories[i].id+'">'+ categories[i].name +'</option>';
+        }
+        $("#category").html(nameList);
+    })
+
+    $.get("provider/findAll", {}, function (providerList) {
+        var nameList = '';
+        for(var i = 0; i < providerList.length; i++){
+            var providerName = providerList[i].providerName;
+            nameList += '<option value="'+ providerList[i].id+'">'+ providerName +'</option>';
+        }
+        $("#providerId").html(nameList);
+
+    })
+</script>
+<script defer="defer">
+
     $(function () {
 
         $.get("bill/findTarget", {}, function (data) {
@@ -112,18 +126,8 @@
             $("#providerId option[value=" + data.providerId + "]").prop("selected", "selected");
         })
 
-        $.get("provider/findAll", {}, function (providerList) {
-            var nameList = '';
-            for(var i = 0; i < providerList.length; i++){
-                var providerName = providerList[i].providerName;
-                nameList += '<option value="'+ providerList[i].id+'">'+ providerName +'</option>';
-            }
-            $("#providerId").html(nameList);
-
-        })
-
         $("#cancel").click(function () {
-            if(confirm("您确定放弃创建吗?")){
+            if(confirm("您确定放弃修改吗?")){
                 window.location.href = "homepage.html";
             }
         });

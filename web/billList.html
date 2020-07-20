@@ -34,13 +34,13 @@
                         <ul class="dropdown-menu">
                             <li><a href="javascript:change('category', '请选择', '请选择')">请选择...</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="javascript:change('category', '日用品', '日用品')">日用品</a></li>
-                            <li><a href="javascript:change('category', '食品', '食品')">一般食品</a></li>
-                            <li><a href="javascript:change('category', '果蔬', '果蔬')">果蔬</a></li>
-                            <li><a href="javascript:change('category', '饮品', '饮品')">饮品</a></li>
-                            <li><a href="javascript:change('category', '玩具', '玩具')">玩具</a></li>
-                            <li><a href="javascript:change('category', '运动器材', '运动器材')">运动器材</a></li>
-                            <li><a href="javascript:change('category', '五金', '五金')">五金</a></li>
+                            <li><a href="javascript:change('category', '1', '日用品')">日用品</a></li>
+                            <li><a href="javascript:change('category', '2', '食品')">食品</a></li>
+                            <li><a href="javascript:change('category', '3', '果蔬')">果蔬</a></li>
+                            <li><a href="javascript:change('category', '4', '饮品')">饮品</a></li>
+                            <li><a href="javascript:change('category', '5', '玩具')">玩具</a></li>
+                            <li><a href="javascript:change('category', '6', '运动器材')">运动器材</a></li>
+                            <li><a href="javascript:change('category', '7', '五金')">五金</a></li>
                         </ul>
                     </div>
                     <div class="btn-group" style="display: flex; margin: 5px;">
@@ -178,7 +178,7 @@
                     '    </a>\n' +
                     '</li>'
             }else{
-                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')">\n' +
+                beforePage = '<li onclick="javascript:load('+beforeNum+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+ (category == null ? null : category) +',' + providerId + ',' + isPay +')">\n' +
                     '    <a href="javascript:void(0)" aria-label="Previous">\n' +
                     '         <span aria-hidden="true">&laquo;</span>\n' +
                     '    </a>\n' +
@@ -190,9 +190,9 @@
             for (var i = 1; i <= pb.totalPage; i++) {
                 var li;
                 if (pb.currentPage == i){
-                    li = '<li class="active" onclick="javascript:load('+i+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    li = '<li class="active" onclick="javascript:load('+i+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+ (category == null ? null : category) +',' + providerId + ',' + isPay +')"><a href="javascript:void(0)">'+i+'</a></li>';
                 }else{
-                    li = '<li onclick="javascript:load('+i+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    li = '<li onclick="javascript:load('+i+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+ (category == null ? null : category) +',' + providerId + ',' + isPay +')"><a href="javascript:void(0)">'+i+'</a></li>';
                 }
                 list += li;
             }
@@ -210,7 +210,7 @@
                     '    </a>\n' +
                     '</li>';
             }else {
-                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+String(category == null ? null : "'" + category + "'")+',' + providerId + ',' + isPay +')">\n' +
+                nextPage =  '<li onclick="javascript:load('+nextNum+','+rows+','+String(productName == null ? null : "'" + productName + "'")+','+ (category == null ? null : category) +',' + providerId + ',' + isPay +')">\n' +
                     '    <a href="javascript:void(0)" aria-label="Next">\n' +
                     '        <span aria-hidden="true">&raquo;</span>\n' +
                     '    </a>\n' +

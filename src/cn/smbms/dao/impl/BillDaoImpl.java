@@ -131,7 +131,7 @@ public class BillDaoImpl implements BillDao {
                 Map<String,String> mp = new HashMap<String,String>();
                 mp.put("id", String.valueOf(rs.getInt(1)));
                 mp.put("productName", rs.getString(2));
-                mp.put("category", String.valueOf(rs.getInt(3)));
+                mp.put("category", rs.getString(3));
                 mp.put("count", String.valueOf(rs.getInt(4)));
                 mp.put("totalPrice", String.valueOf(rs.getDouble(5)));
                 mp.put("isPay", String.valueOf(rs.getInt(6)));
