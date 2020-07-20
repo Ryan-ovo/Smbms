@@ -161,10 +161,6 @@ public class BillServlet extends BaseServlet{
             errorMsg += "请不要保留空项";
             info.setErrorMsg(errorMsg);
             info.setFlag(false);
-        }else if(productName.equals(targetBill.getProductName()) && category.equals(String.valueOf(targetBill.getCategory())) && count.equals(Integer.toString(targetBill.getCount())) && Double.parseDouble(totalPrice) == targetBill.getTotalPrice() && isPay.equals(Integer.toString(targetBill.getIsPay())) && providerId.equals(Integer.toString(targetBill.getProviderId()))){
-            errorMsg += "订单信息未发生修改";
-            info.setErrorMsg(errorMsg);
-            info.setFlag(false);
         }else{
             Integer countNum = null;
             Double totalPriceNum = null;

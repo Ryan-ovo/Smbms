@@ -18,9 +18,9 @@ import java.util.List;
  */
 @WebServlet("/category/*")
 public class CategoryServlet extends BaseServlet{
-    private CategoryService categoryService = new CategoryServiceImpl();
+    private CategoryService service = new CategoryServiceImpl();
     public void findAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Category> categories = categoryService.findAll();
+        List<Category> categories = service.findAll();
         ObjectMapper mapper = new ObjectMapper();
         resp.setContentType("application/json;charset=utf-8");
         mapper.writeValue(resp.getOutputStream(),categories);

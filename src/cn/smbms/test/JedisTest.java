@@ -1,5 +1,6 @@
 package cn.smbms.test;
 
+import cn.smbms.tools.JedisUtils;
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -190,22 +191,22 @@ public class JedisTest {
     /**
      * jedis连接池工具类使用
      */
-//    @Test
-//    public void test8(){
-//
-//        //通过连接池工具类获取
-//        Jedis jedis = JedisPoolUtils.getJedis();
-//
-//
-//
-//        //3. 使用
-//        jedis.set("hello","world");
-//
-//
-//        //4. 关闭 归还到连接池中
-//        jedis.close();;
-//
-//    }
+    @Test
+    public void test8(){
+
+        //通过连接池工具类获取
+        Jedis jedis = JedisUtils.getJedis();
+
+
+
+        //3. 使用
+        jedis.set("hello","world");
+
+
+        //4. 关闭 归还到连接池中
+        jedis.close();;
+
+    }
 
 
 

@@ -9,18 +9,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- JedisPool工具类
-    加载配置文件，配置连接池的参数
-    提供获取连接的方法
-
+ * Jedis工具类
  */
-public class JedisPoolUtils {
-
+public final class JedisUtils {
     private static JedisPool jedisPool;
 
-    static{
+    static {
         //读取配置文件
-        InputStream is = JedisPoolUtils.class.getClassLoader().getResourceAsStream("jedis.properties");
+        InputStream is = JedisPool.class.getClassLoader().getResourceAsStream("jedis.properties");
         //创建Properties对象
         Properties pro = new Properties();
         //关联文件
@@ -35,14 +31,25 @@ public class JedisPoolUtils {
         config.setMaxIdle(Integer.parseInt(pro.getProperty("maxIdle")));
 
         //初始化JedisPool
-        jedisPool = new JedisPool(config,pro.getProperty("host"),Integer.parseInt(pro.getProperty("port")));
+        jedisPool = new JedisPool(config, pro.getProperty("host"), Integer.parseInt(pro.getProperty("port")));
+
+
     }
 
 
     /**
      * 获取连接方法
      */
-    public static Jedis getJedis(){
+    public static Jedis getJedis() {
         return jedisPool.getResource();
+    }
+
+    /**
+     * 关闭Jedis
+     */
+    public static void close(Jedis jedis) {
+        if (jedis != null) {
+            jedis.close();
+        }
     }
 }

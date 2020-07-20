@@ -165,7 +165,7 @@
             $.get("bill/add", {productName:productName,category:category,count:count,totalPrice:totalPrice,isPay:isPay,providerId:providerId}, function (data) {
                 if(data.flag){
                     //成功创建
-                    location.href = "homepage.html";
+                    location.href = "billList.html";
                 }else{
                     alert(data.errorMsg);
                 }

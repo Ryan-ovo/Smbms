@@ -7,12 +7,14 @@
         var s = location.href.split("/");
         var cur = s[s.length-1];
         var loc = "";
-        if (cur === "homepage.html"){
-
+        if (cur === "billList.html" || cur === "modifiedBillInfo.html" || cur === "createBill.html"){
+            loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">订单管理</span></a>';
         }else if(cur === "userList.html" || cur === "modifiedUserInfo.html"){
             loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">用户管理</span></a>';
-        }else if(cur == 'providerList.html' || cur === "modifiedProviderInfo.html"){
+        }else if(cur === 'providerList.html' || cur === "modifiedProviderInfo.html" || cur === "addProvider.html"){
             loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">供应商管理</span></a>';
+        }else if (cur === "modifiedPassword.html"){
+            loc += '-><a href='+'"javascript:;"><span style="color: lightskyblue">修改密码</span></a>';
         }
 
         $("#dynamic_bar").append(loc);
