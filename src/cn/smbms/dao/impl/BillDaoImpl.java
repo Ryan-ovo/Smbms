@@ -94,8 +94,9 @@ public class BillDaoImpl implements BillDao {
 
     @Override
     public List findByPage(int start, int rows, Map<String, String[]> condition) {
-        String sql = "select b.id as id, b.productName as productName, b.category as category, b.count as count, b.totalPrice as totalPrice, b.isPay as isPay, u.username as createdBy, b.createdDate as createDate, p.providerName as providerName from bill as b,user as u,provider as p\n" +
-                "where b.providerId=p.id and b.createdBy=u.id";
+        String sql = "select b.id as id, b.productName as productName, c.name as category, b.count as count, b.totalPrice as totalPrice, b.isPay as isPay, u.username as createdBy, b.createdDate as createDate, p.providerName as providerName\n" +
+                "from bill as b,category as c,user as u,provider as p\n" +
+                "where b.providerId=p.id and b.createdBy=u.id and b.category=c.id";
         StringBuilder sb = new StringBuilder(sql);
         //遍历map
         Set<String> keySet = condition.keySet();

@@ -12,7 +12,7 @@ public class Bill {
 
     private Integer id;//订单编号
     private String productName;//商品名称
-    private String category;//商品分类
+    private int category;//商品分类
     private int count;//商品数量
     private double totalPrice;//总价
     private int isPay;//1表示已付款  2表示未付款
@@ -35,11 +35,11 @@ public class Bill {
         this.productName = productName;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
@@ -120,7 +120,7 @@ public class Bill {
         return "Bill{" +
                 "id=" + id +
                 ", productName='" + productName + '\'' +
-                ", category='" + category + '\'' +
+                ", category=" + category +
                 ", count=" + count +
                 ", totalPrice=" + totalPrice +
                 ", isPay=" + isPay +

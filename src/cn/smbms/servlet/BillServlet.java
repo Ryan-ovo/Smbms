@@ -82,7 +82,7 @@ public class BillServlet extends BaseServlet{
 
     public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productName = req.getParameter("productName");
-        String category = req.getParameter("category");
+        int category = Integer.parseInt(req.getParameter("category"));
         String count = req.getParameter("count");
         String totalPrice = req.getParameter("totalPrice");
         String isPay = req.getParameter("isPay");
@@ -94,7 +94,7 @@ public class BillServlet extends BaseServlet{
         ResultInfo info = new ResultInfo();
         String errorMsg = "抱歉，订单创建失败！";
 
-        if(productName == null || "".equals(productName) || category == null || "".equals(category) || count == null || "".equals(count) || totalPrice == null || "".equals(totalPrice) || isPay == null || "".equals(isPay) || providerId == null || "".equals(providerId)){
+        if(productName == null || "".equals(productName) || count == null || "".equals(count) || totalPrice == null || "".equals(totalPrice) || isPay == null || "".equals(isPay) || providerId == null || "".equals(providerId)){
             errorMsg += "请不要保留空项";
             info.setErrorMsg(errorMsg);
             info.setFlag(false);
@@ -143,7 +143,7 @@ public class BillServlet extends BaseServlet{
 
     public void modifiedInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productName = req.getParameter("productName");
-        String category = req.getParameter("category");
+        int category = Integer.parseInt(req.getParameter("category"));
         String count = req.getParameter("count");
         String totalPrice = req.getParameter("totalPrice");
         String isPay = req.getParameter("isPay");
@@ -156,11 +156,11 @@ public class BillServlet extends BaseServlet{
         ResultInfo info = new ResultInfo();
         String errorMsg = "抱歉，订单修改失败！";
 
-        if(productName == null || "".equals(productName) || category == null || "".equals(category) || count == null || "".equals(count) || totalPrice == null || "".equals(totalPrice) || isPay == null || "".equals(isPay) || providerId == null || "".equals(providerId)){
+        if(productName == null || "".equals(productName) || count == null || "".equals(count) || totalPrice == null || "".equals(totalPrice) || isPay == null || "".equals(isPay) || providerId == null || "".equals(providerId)){
             errorMsg += "请不要保留空项";
             info.setErrorMsg(errorMsg);
             info.setFlag(false);
-        }else if(productName.equals(targetBill.getProductName()) && category.equals(targetBill.getCategory()) && count.equals(Integer.toString(targetBill.getCount())) && totalPrice.equals(Double.toString(targetBill.getTotalPrice())) && isPay.equals(Integer.toString(targetBill.getIsPay())) && providerId.equals(Integer.toString(targetBill.getProviderId()))){
+        }else if(productName.equals(targetBill.getProductName()) && category==targetBill.getCategory() && count.equals(Integer.toString(targetBill.getCount())) && totalPrice.equals(Double.toString(targetBill.getTotalPrice())) && isPay.equals(Integer.toString(targetBill.getIsPay())) && providerId.equals(Integer.toString(targetBill.getProviderId()))){
             errorMsg += "订单信息未发生修改";
             info.setErrorMsg(errorMsg);
             info.setFlag(false);
