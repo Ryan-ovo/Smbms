@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Bill {
 
-    private Integer id;//订单编号
+    private int id;//订单编号
     private String productName;//商品名称
     private int category;//商品分类
     private int count;//商品数量
@@ -67,11 +67,11 @@ public class Bill {
         this.isPay = isPay;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
