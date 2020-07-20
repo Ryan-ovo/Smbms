@@ -7,7 +7,6 @@ import cn.smbms.entity.User;
 import cn.smbms.service.BillService;
 import cn.smbms.service.impl.BillServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.runtime.ECMAException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -124,7 +123,7 @@ public class BillServlet extends BaseServlet{
                 //两个数字均转换成功不包含非数字符号
                 info.setFlag(true);
                 bill.setProductName(productName);
-                bill.setCategory(category);
+                bill.setCategory(Integer.parseInt(category));
                 bill.setCount(countNum);
                 bill.setTotalPrice(totalPriceNum);
                 bill.setIsPay(Integer.parseInt(isPay));
@@ -190,7 +189,7 @@ public class BillServlet extends BaseServlet{
                 //两个数字均转换成功不包含非数字符号
                 info.setFlag(true);
                 bill.setProductName(productName);
-                bill.setCategory(category);
+                bill.setCategory(Integer.parseInt(category));
                 bill.setCount(countNum);
                 bill.setTotalPrice(totalPriceNum);
                 bill.setIsPay(Integer.parseInt(isPay));
