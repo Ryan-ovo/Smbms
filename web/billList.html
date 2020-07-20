@@ -31,16 +31,8 @@
                         <button type="button" id="category" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="请选择">
                             请选择<span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:change('category', '请选择', '请选择')">请选择...</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:change('category', '1', '日用品')">日用品</a></li>
-                            <li><a href="javascript:change('category', '2', '食品')">食品</a></li>
-                            <li><a href="javascript:change('category', '3', '果蔬')">果蔬</a></li>
-                            <li><a href="javascript:change('category', '4', '饮品')">饮品</a></li>
-                            <li><a href="javascript:change('category', '5', '玩具')">玩具</a></li>
-                            <li><a href="javascript:change('category', '6', '运动器材')">运动器材</a></li>
-                            <li><a href="javascript:change('category', '7', '五金')">五金</a></li>
+                        <ul class="dropdown-menu" id="categoryContent">
+
                         </ul>
                     </div>
                     <div class="btn-group" style="display: flex; margin: 5px;">
@@ -97,6 +89,16 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/content_height.js"></script>
 <script>
+    $.get("category/findAll", {}, function (categories) {
+        var nameList = '';
+        nameList += '<li><a href="javascript:change(\'category\', \'请选择\', \'请选择\')">请选择...</a></li>\n' +
+            '                            <li role="separator" class="divider"></li>';
+        for(var i = 0; i < categories.length; i++){
+            nameList += '<li><a href="javascript:change(\'category\',' + categories[i].id +' , \''+ categories[i].name +'\')">' + categories[i].name + '</a></li>';
+        }
+        $("#categoryContent").html(nameList);
+    })
+
     function deleteBill(id){
         if (confirm("您确定要删除吗?")){
             location.href = "bill/delete?id="+id;
